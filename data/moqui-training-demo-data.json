@@ -1,0 +1,19 @@
+[
+  {"_dataType": "demo" },
+  {
+  "_entity": "tutorial.MoquiTraining",
+  "trainingId": "TRAIN001",
+  "trainingName": "Java Programming Basics",
+  "trainingDate": "2024-02-15",
+  "trainingPrice": 199.99,
+  "trainingDuration": 5
+},
+{
+"_entity": "tutorial.MoquiTraining",
+"trainingId": "TRAIN002",
+"trainingName": "Advanced Groovy Scripting",
+"trainingDate": "2024-03-01",
+"trainingPrice": 299.99,
+"trainingDuration": 10
+}
+]
