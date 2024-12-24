@@ -121,7 +121,7 @@
                     <service-call name="create#MoquiTraining" in-map="context" out-map="context"/>
                 </else>
 <!--                <else>-->
-<!--                    &lt;!&ndash; Create a new record if no existing record was found &ndash;&gt;-->
+<!--
 <!--                    <entity-value entity-name="MoquiTraining">-->
 <!--                        <set field="trainingName" from="trainingName"/>-->
 <!--                        <set field="trainingDate" from="trainingDate"/>-->
