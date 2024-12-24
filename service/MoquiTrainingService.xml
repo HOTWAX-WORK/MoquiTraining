@@ -54,6 +54,91 @@
     </service>
 
 
+    <service verb="find" noun="TrainingDetail">
+        <in-parameters>
+            <parameter name="trainingId"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingInfo" type="list"/>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="MoquiTraining" list="trainingInfo">
+                <econdition field-name="trainingId"/>
+                <select-field field-name="trainingName,trainingId,trainingDate"/>
+            </entity-find>
+        </actions>
+    </service>
+
+    <service verb="store" noun="MoquiTrainingUpdate">
+        <description>Create or update MoquiTraining records based on trainingName or trainingId.</description>
+
+        <in-parameters>
+<!--            <parameter name="trainingId"/> &lt;!&ndash; Optional: ID to update an existing record &ndash;&gt;-->
+            <parameter name="trainingName" required="true"/> <!-- Required: Name of the training session -->
+            <parameter name="trainingDate" required="true"/> <!-- Required: Date of the training session -->
+            <auto-parameters entity-name="MoquiTraining" include="nonpk"/> <!-- Include other non-primary key fields -->
+        </in-parameters>
+
+        <out-parameters>
+            <parameter name="trainingId"/> <!-- Output parameter for the ID of the training record -->
+        </out-parameters>
+
+        <actions>
+            <!-- Find the existing record by trainingId or trainingName -->
+<!--            <if condition="context.trainingId">-->
+<!--                <then>-->
+<!--                    <entity-find-one entity-name="MoquiTraining" value-field="existingRecord">-->
+<!--                        <field-map field-name="trainingId" from="trainingId"/>-->
+<!--                    </entity-find-one>-->
+<!--                </then>-->
+<!--                <else>-->
+<!--                    <entity-find-one entity-name="MoquiTraining" value-field="existingRecord">-->
+<!--                        <field-map field-name="trainingName" from="trainingName"/>-->
+<!--                    </entity-find-one>-->
+<!--                </else>-->
+<!--            </if>-->
+
+            <entity-find-one entity-name="MoquiTraining" value-field="existingRecord">
+                <field-map field-name="trainingName" from="trainingName"/>
+            </entity-find-one>
+
+            <!-- If record exists, update it -->
+            <if condition="existingRecord">
+                <then>
+                    <!-- Update fields from context -->
+                    <set field="existingRecord.trainingDate" from="trainingDate"/>
+
+                    <set field="existingRecord.trainingName" from="trainingName"/>
+                    <set field="existingRecord.trainingPrice" from="trainingPrice"/>
+                    <set field="existingRecord.trainingDuration" from="trainingDuration"/>
+                    <!-- Update the existing record -->
+                    <entity-update value-field="existingRecord"/>
+
+                    <!-- Set output parameter to return updated training ID -->
+                    <set field="trainingId" from="existingRecord.trainingId"/>
+                </then>
+                <else>
+                    <service-call name="create#MoquiTraining" in-map="context" out-map="context"/>
+                </else>
+<!--                <else>-->
+<!--                    &lt;!&ndash; Create a new record if no existing record was found &ndash;&gt;-->
+<!--                    <entity-value entity-name="MoquiTraining">-->
+<!--                        <set field="trainingName" from="trainingName"/>-->
+<!--                        <set field="trainingDate" from="trainingDate"/>-->
+<!--                        <create/>-->
+
+<!--                        &lt;!&ndash; Set output parameter to return new training ID &ndash;&gt;-->
+<!--                        <set field="trainingId" from="new.trainingId"/>-->
+<!--                    </entity-value>-->
+<!--                </else>-->
+            </if>
+
+            <!-- Return the trainingId -->
+<!--            <set-result name="trainingId" from="trainingId"/>-->
+        </actions>
+    </service>
+
+
 
 
 </services>
