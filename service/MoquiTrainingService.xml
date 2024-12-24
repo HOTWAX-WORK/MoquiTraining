@@ -73,7 +73,7 @@
         <description>Create or update MoquiTraining records based on trainingName or trainingId.</description>
 
         <in-parameters>
-<!--            <parameter name="trainingId"/> &lt;!&ndash; Optional: ID to update an existing record &ndash;&gt;-->
+            <parameter name="trainingId" required="true"/> <!-- Optional: ID to update an existing record -->
             <parameter name="trainingName" required="true"/> <!-- Required: Name of the training session -->
             <parameter name="trainingDate" required="true"/> <!-- Required: Date of the training session -->
             <auto-parameters entity-name="MoquiTraining" include="nonpk"/> <!-- Include other non-primary key fields -->
@@ -99,7 +99,7 @@
 <!--            </if>-->
 
             <entity-find-one entity-name="MoquiTraining" value-field="existingRecord">
-                <field-map field-name="trainingName" from="trainingName"/>
+                <field-map field-name="trainingId" from="trainingId"/>
             </entity-find-one>
 
             <!-- If record exists, update it -->
