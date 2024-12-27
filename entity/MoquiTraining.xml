@@ -7,7 +7,14 @@
         <field name="firstName" type="text-medium" />
         <field name="lastName" type="text-medium" />
     </entity>
-
+<!-- >
+    <entity entity-name="Try" package="tutorial">
+        <field name="partyId" type="id" is-pk="true"  />
+        <field name="partyType" type="text-short" not-null="true" />
+        <field name="firstName" type="text-long" />
+        <field name="lastName" type="text-very-long" />
+    </entity>
+-->
     <!-- Contact_Mech Entity -->
     <entity entity-name="ContactMech" package="tutorial">
         <field name="contactMechId" type="id" is-pk="true" />

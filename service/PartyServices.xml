@@ -7,4 +7,30 @@
         </in-parameters>
         <out-parameters><parameter name="partyId"/></out-parameters>
     </service>
+    <service verb="create" noun="OrderItem" type="entity-auto">
+        <in-parameters>
+            <auto-parameters entity-name="OrderItem" include="nonpk"/>
+        </in-parameters>
+        <out-parameters><parameter name="orderItemSeqId"/></out-parameters>
+    </service>
+    <service verb="create" noun="OrderHeader" type="entity-auto">
+        <in-parameters>
+            <auto-parameters entity-name="OrderHeader" include="nonpk"/>
+        </in-parameters>
+        <out-parameters><parameter name="orderId"/></out-parameters>
+    </service>
+    <service verb="create" noun="OrderHeader2">
+        <in-parameters>
+            <auto-parameters entity-name="OrderHeader" include="nonpk"/>
+            <auto-parameters entity-name="OrderItem" include="nonpk"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="oderId"/>
+            <parameter name="oderItemSequenceId"/>
+        </out-parameters>
+        <actions>
+            <service-call name="create#OrderHeader" in-map="context" out-map="context"/>
+            <service-call name="create#OrderItem" in-map="context" out-map="context"/>
+        </actions>
+    </service>
 </services>
