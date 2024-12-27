@@ -8,7 +8,6 @@
         </in-parameters>
         <out-parameters><parameter name="trainingId"/></out-parameters>
         <actions>
-            <!-- Validation for trainingDate format -->
             <if condition="!(context.trainingDate ==~ '\\d{2}/\\d{2}/\\d{4}')">
                 <error message="The trainingDate must follow MM/dd/yyyy format"/>
             </if>
@@ -120,25 +119,12 @@
                 <else>
                     <service-call name="create#MoquiTraining" in-map="context" out-map="context"/>
                 </else>
-<!--                <else>-->
-<!--
-<!--                    <entity-value entity-name="MoquiTraining">-->
-<!--                        <set field="trainingName" from="trainingName"/>-->
-<!--                        <set field="trainingDate" from="trainingDate"/>-->
-<!--                        <create/>-->
 
-<!--                        &lt;!&ndash; Set output parameter to return new training ID &ndash;&gt;-->
-<!--                        <set field="trainingId" from="new.trainingId"/>-->
-<!--                    </entity-value>-->
-<!--                </else>-->
             </if>
 
             <!-- Return the trainingId -->
 <!--            <set-result name="trainingId" from="trainingId"/>-->
         </actions>
     </service>
-
-
-
 
 </services>
