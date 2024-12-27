@@ -10,6 +10,7 @@
             <method type="get"><entity name="Party" operation="one"/></method>
             <method type="put"><entity name="Party" operation="update"/></method>
             <method type="delete"><entity name="Party" operation="delete"/></method>
+<!--            <method type="delete"><service name="PartyServices.delete#Party" /></method>-->
             <resource name="contacts">
                 <method type="post"><entity name="ContactMech" operation="create"/></method>
                 <method type="get"><entity name="ContactMech" operation="list"/></method>
@@ -28,18 +29,16 @@
         <id name="productId">
             <method type="get"><entity name="Product" operation="one"/></method>
             <method type="put"><entity name="Product" operation="update"/></method>
-            <method type="delete"><entity name="Product" operation="delete"/></method>
+            <method type="delete"><service name="PartyServices.delete#Product" /></method>
         </id>
     </resource>
 
     <resource name="orders" require-authentication="anonymous-all">
-        <method type="get"><entity name="OrderHeader" operation="list"/></method>
-        <method type="post"><service name="PartyServices.create#OrderHeader2" /></method>
-<!--        <method type="post"><entity name="OrderHeader" operation="create"/></method>-->
+        <method type="post"><entity name="OrderHeader" operation="create"/></method>
         <id name="orderId">
-            <method type="get"><entity name="OrderHeader" operation="one"/></method>
+            <method type="get"><service name="PartyServices.find#OrderHeader" /></method>
             <method type="put"><entity name="OrderHeader" operation="update"/></method>
-            <method type="delete"><entity name="OrderHeader" operation="delete"/></method>
+            <method type="delete"><service name="PartyServices.delete#OrderHeader" /></method>
         </id>
         <resource name="items">
             <method type="post"><entity name="OrderItem" operation="create"/></method>
@@ -47,6 +46,16 @@
     </resource>
 
 
-
+    <resource name="orders" require-authentication="anonymous-all">
+        <method type="post"><entity name="OrderHeader" operation="create"/></method>
+        <id name="orderId">
+            <method type="get"><service name="PartyServices.find#OrderHeader" /></method>
+            <method type="put"><entity name="OrderHeader" operation="update"/></method>
+            <method type="delete"><service name="PartyServices.delete#OrderHeader" /></method>
+        </id>
+        <resource name="items">
+            <method type="post"><entity name="OrderItem" operation="create"/></method>
+        </resource>
+    </resource>
 
 </resource>
