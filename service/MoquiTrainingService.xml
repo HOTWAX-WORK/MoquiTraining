@@ -52,6 +52,19 @@
         </actions>
     </service>
 
+    <service verb="create" noun="Training" type="script" authenticate="anonymous-view" location="component://moqui-training/service/test.groovy">
+        <description>Create a training record with business logic</description>
+        <in-parameters>
+            <parameter name="trainingName" required="true"/>
+            <parameter name="trainingDate"  required="true"/>
+            <parameter name="trainingPrice"  required="true"/>
+            <parameter name="trainingDuration" />
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingId" type="id"/>
+        </out-parameters>
+
+    </service>
 
     <service verb="find" noun="TrainingDetail">
         <in-parameters>
@@ -72,10 +85,10 @@
         <description>Create or update MoquiTraining records based on trainingName or trainingId.</description>
 
         <in-parameters>
-            <parameter name="trainingId" required="true"/> <!-- Optional: ID to update an existing record -->
-            <parameter name="trainingName" required="true"/> <!-- Required: Name of the training session -->
-            <parameter name="trainingDate" required="true"/> <!-- Required: Date of the training session -->
-            <auto-parameters entity-name="MoquiTraining" include="nonpk"/> <!-- Include other non-primary key fields -->
+            <parameter name="trainingId" required="true"/>
+            <parameter name="trainingName" required="true"/>
+            <parameter name="trainingDate" required="true"/>
+            <auto-parameters entity-name="MoquiTraining" include="nonpk"/>
         </in-parameters>
 
         <out-parameters>
