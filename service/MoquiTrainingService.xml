@@ -7,17 +7,11 @@
             <parameter name="trainingDate" required="true"/>
         </in-parameters>
         <out-parameters><parameter name="trainingId"/></out-parameters>
-        <actions>
-            <if condition="!(context.trainingDate ==~ '\\d{2}/\\d{2}/\\d{4}')">
-                <error message="The trainingDate must follow MM/dd/yyyy format"/>
-            </if>
-        </actions>
     </service>
-    <!-- inline service -->
+
     <service verb="create" noun="MoquiTrainingDefaultInline">
         <in-parameters>
             <parameter name="trainingName" required="true"/>
-            <!--            <parameter name="trainingDate" required="true" type="Date"/>-->
             <parameter name="trainingDate" required="true">
                 <time-range after="now" format="mm/dd/yyyy"/></parameter>
             <parameter name="trainingPrice"/>
@@ -92,11 +86,11 @@
         </in-parameters>
 
         <out-parameters>
-            <parameter name="trainingId"/> <!-- Output parameter for the ID of the training record -->
+            <parameter name="trainingId"/>
         </out-parameters>
 
         <actions>
-            <!-- Find the existing record by trainingId or trainingName -->
+
 <!--            <if condition="context.trainingId">-->
 <!--                <then>-->
 <!--                    <entity-find-one entity-name="MoquiTraining" value-field="existingRecord">-->
@@ -114,19 +108,13 @@
                 <field-map field-name="trainingId" from="trainingId"/>
             </entity-find-one>
 
-            <!-- If record exists, update it -->
             <if condition="existingRecord">
                 <then>
-                    <!-- Update fields from context -->
                     <set field="existingRecord.trainingDate" from="trainingDate"/>
-
                     <set field="existingRecord.trainingName" from="trainingName"/>
                     <set field="existingRecord.trainingPrice" from="trainingPrice"/>
                     <set field="existingRecord.trainingDuration" from="trainingDuration"/>
-                    <!-- Update the existing record -->
                     <entity-update value-field="existingRecord"/>
-
-                    <!-- Set output parameter to return updated training ID -->
                     <set field="trainingId" from="existingRecord.trainingId"/>
                 </then>
                 <else>
@@ -134,8 +122,6 @@
                 </else>
 
             </if>
-
-            <!-- Return the trainingId -->
 <!--            <set-result name="trainingId" from="trainingId"/>-->
         </actions>
     </service>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <service verb="find" noun="Contact" >
+        <in-parameters>
+            <parameter name="partyId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="contactMechList" type="list"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="Party" value-field="party"/>
+            <if condition="!party">
+                <then>
+                    <return message="No Parties Exists"/>
+                </then>
+                <else>
+                    <entity-find entity-name="ContactMech" list="contactMechList"/>
+                </else>
+            </if>
+        </actions>
+    </service>
+
+    <service verb="create" noun="Contact">
+        <in-parameters>
+            <auto-parameters entity-name="ContactMech" required="true" include="nonpk"/>
+            <parameter name="partyId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="message"/>
+            <parameter name="contactList" type="List"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="Party" value-field="party">
+                <field-map field-name="partyId" from="partyId"/>
+            </entity-find-one>
+            <if condition="!party">
+                <return message="Incorrect Party id so cannot create contact" />
+            </if>
+            <service-call name="create#ContactMech" in-map="context" out-map="context"/>
+            <entity-find-one entity-name="ContactMech" value-field="cont">
+                <field-map field-name="contactMechId" from="contactMechId"/>
+            </entity-find-one>
+            <set field="contactList" from="cont"/>
+            <set field="message" value="Contact Created Successfully with id = $contactMechId"/>
+        </actions>
+    </service>
+
+    <service verb="update" noun="Contact">
+        <in-parameters>
+            <parameter name="contactMechId" required="true"/>
+            <parameter name="partyId" required="true"/>
+            <parameter name="state" required="true"/>
+            <parameter name="city" required="true"/>
+            <parameter name="streetAddress" required="true"/>
+            <parameter name="postalCode" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="updatedRecord"/>
+            <parameter name="message"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="ContactMech" value-field="contacts">
+                <field-map field-name="contactMechId" from="contactMechId"/>
+            </entity-find-one>
+            <if condition="!contacts">
+                <return message="No Contact Found"/>
+            </if>
+            <set field="contacts.city" from="city"/>
+            <set field="contacts.state" from="state"/>
+            <set field="contacts.streetAddress" from="streetAddress"/>
+            <set field="contacts.postalCode" from="postalCode"/>
+            <entity-update value-field="contacts"/>
+            <entity-find-one entity-name="ContactMech" value-field="updatedRecord">
+                <field-map field-name="contactMechId" from="contactMechId"/>
+            </entity-find-one>
+            <set field="message" value="Contact Updtaed"/>
+        </actions>
+    </service>
+
+    <service verb="delete" noun="Contact">
+        <in-parameters>
+            <parameter name="partyId" required="true"/>
+            <parameter name="contactMechId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="message" default-value="Contact Deleted Successfully"/>
+        </out-parameters>
+
+        <actions>
+            <entity-find-one entity-name="Party" value-field="party"/>
+            <!--            <return message="hi"/>-->
+            <if condition="!party">
+                <return message="Party Not Found"/>
+            </if><entity-find-one entity-name="ContactMech" value-field="contact"/>
+            <!--            <return message="hi"/>-->
+            <if condition="!contact">
+                <return message="Contact Not Found"/>
+            </if>
+            <entity-find-one entity-name="OrderHeader" value-field="order">
+                <field-map field-name="shippingContactMechId" from="contactMechId"/>
+            </entity-find-one>
+            <if condition="order">
+                <return message="Cannot delete contact because it has orders"/>
+            </if>
+
+            <entity-find-one entity-name="OrderHeader" value-field="order2">
+                <field-map field-name="billingContactMechId" from="contactMechId"/>
+            </entity-find-one>
+            <if condition="order2">
+                <return message="Cannot delete contact because it has orders"/>
+            </if>
+
+            <entity-delete-by-condition entity-name="ContactMech" >
+                <econdition field-name="contactMechId"/>
+            </entity-delete-by-condition>
+            <set field="message" value="Contact Deleted Successfully"/>
+
+        </actions>
+    </service>
+
+</services>

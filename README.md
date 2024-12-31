@@ -1,64 +1,127 @@
+# Moqui API Training
 
-# MoquiTraining
-
-API SCREENSHOTS
-
-1. GET PARTIES
-   ![image](https://github.com/user-attachments/assets/52854d27-494c-412f-b843-d4787edbfcbb)
-
-2. GET PARTICULAR PARTY
-   ![image](https://github.com/user-attachments/assets/4b6cf69e-a206-4ed7-8d14-cbd84f1f14b1)
-
-3. UPDATE PARTY
-   ![image](https://github.com/user-attachments/assets/18ec80bc-d53d-48f9-a639-e9e8b4b2cd57)
-
-4.DELETE PARTY
-![image](https://github.com/user-attachments/assets/fc86557d-f42a-4ba8-a435-10bdba9871ce)
-
-5.ADD PARTY
-![image](https://github.com/user-attachments/assets/cd8088fd-15a6-4f46-9f36-9084c6e2b645)
-
-6.GET CONTACT
-![image](https://github.com/user-attachments/assets/731af8a7-dfac-4141-8e24-7d9c2fcb7aaa)
-
-7.DELETE CONTACT
-![image](https://github.com/user-attachments/assets/c2c85ade-6ae0-429c-ba00-18f238146ef1)
-
-8.ADD CONTACT
-![image](https://github.com/user-attachments/assets/3064d01a-4933-4db4-ba23-a64876c199d5)
-
-9.UPDATE CONTACT
-![image](https://github.com/user-attachments/assets/8f0b00c8-d279-420e-9107-9b0ab5be2b13)
-
-10.GET PRODUCT
-![image](https://github.com/user-attachments/assets/bffb92ad-367f-40b7-a828-a13d618abf6e)
-
-11.DELETE PRODUCT
-![image](https://github.com/user-attachments/assets/8126b3c0-8c59-4994-b7f0-544fccaf7756)
-
-12.ADD PRODUCT
-![image](https://github.com/user-attachments/assets/4daeba22-4336-4d19-a261-edb81822acb6)
-
-13.UPDATE PRODUCT
-![image](https://github.com/user-attachments/assets/c20d9696-ac45-48c6-bc0a-141115304efe)
-
-14.GET SINGLE PRODUCT
-![image](https://github.com/user-attachments/assets/482521a6-b78a-454a-9263-23efbc9f3f99)
-
-15.ADD ORDER
-![image](https://github.com/user-attachments/assets/9b8bc7a9-564a-4076-8fd4-df1bbe903387)
-
-16.GET ORDER
-![image](https://github.com/user-attachments/assets/82c6073f-b65e-4c67-91b0-95223ce7316a)
-
-17.UPDATE ORDER
-![image](https://github.com/user-attachments/assets/f2cfda37-7965-4531-a80e-ae5c03458cfc)
-
-18.DELETE ORDER
-![image](https://github.com/user-attachments/assets/e8af2ac3-8503-428d-bb18-db27cf0bc5ee)
-
-19.CREATE ORDER ITEM
-![image](https://github.com/user-attachments/assets/a93407dc-29d8-4823-b980-2ff69b8b8054)
+This document provides an overview of the API endpoints available in the Moqui system for managing parties, contacts, products, and orders. Each section demonstrates the API operations with relevant screenshots to illustrate the expected input and output.
 
 
+## Party Management
 
+### 1. Get All Parties
+Fetch all parties from the system.
+
+![Get Parties](img/img_4.png)
+
+### 2. Get Specific Party
+Fetch details of a particular party by its ID.
+
+![Get Particular Party](img/img_5.png)
+
+### 3. Update Party
+Update details of an existing party.
+
+![Update Party](img/img_6.png)
+
+### 4. Delete Party
+Remove a party from the system.
+
+![Delete Party](img/img_7.png)
+
+### 5. Add Party
+Add a new party to the system.
+
+![Add Party](img/img_9.png)
+
+---
+
+## Contact Management
+
+### 6. Get Contact
+Fetch details of a specific contact.
+
+![Get Contact](img/img_10.png)
+
+### 7. Delete Contact
+Delete a contact from the system.
+
+![Delete Contact](img/img_11.png)
+
+### 8. Add Contact
+Add a new contact to the system.
+
+![Add Contact](img/img_12.png)
+
+### 9. Update Contact
+Update an existing contact's details.
+
+![Update Contact](img/img_13.png)
+
+---
+
+## Product Management
+
+### 10. Get All Products
+Fetch all products available in the system.
+
+![Get Product](img/img_15.png)
+
+### 11. Get Specific Product
+Fetch details of a specific product by its ID.
+
+![Get Single Product](img/img_18.png)
+
+### 12. Add Product
+Add a new product to the system.
+
+![Add Product](img/img_16.png)
+
+### 13. Update Product
+Update an existing product's details.
+
+![Update Product](img/img_17.png)
+
+### 14. Delete Product
+Remove a product from the system.
+
+![Delete Product](img/img_14.png)
+
+---
+
+## Order Management
+
+### 15. Get All Orders
+Fetch all orders from the system.
+
+![Get Orders](img/img.png)
+
+### 16. Add Order
+Create a new order.
+
+![Add Order](img/img_19.png)
+
+### 17. Update Order
+Update details of an existing order.
+
+![Update Order](img/img_20.png)
+
+### 18. Delete Order
+Delete an order from the system.
+
+![Delete Order](img/img_1.png)
+
+### 19. Add Order Item
+Add an item to an existing order.
+
+![Add Order Item](img/img_21.png)
+
+### 20. Delete Order Item
+Remove an item from an order.
+
+![Delete Order Item](img/img_22.png)
+
+---
+
+## Conclusion
+
+This README provides a visual guide to interacting 
+with Moqui's API for managing parties, contacts, products,
+and orders. For further details on authentication and error
+handling, please refer to the Moqui API documentation.

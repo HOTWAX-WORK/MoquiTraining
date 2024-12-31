@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <service verb="create" noun="OrderHeader2">
+        <in-parameters>
+            <auto-parameters entity-name="OrderHeader" include="nonpk"/>
+<!--            <auto-parameters entity-name="OrderItem" include="nonpk"/>-->
+            <parameter name="itemList" required="true" type="List"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderId"/>
+            <parameter name="orderDetails"/>
+            <parameter name="itemLists"/>
+            <parameter name="party"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="Party" value-field="party">
+                <field-map field-name="partyId" from="partyId"/>
+            </entity-find-one>
+            <if condition="!party">
+                <return message="Incorrect Party id" />
+            </if>
+            <entity-find-one entity-name="ContactMech" value-field="contact">
+                <field-map field-name="contactMechId" from="shippingContactMechId"/>
+            </entity-find-one>
+            <if condition="!contact">
+                <return message="Incorrect Shipping id" />
+            </if>
+            <if condition="contact.partyId!=partyId">
+                    <return message="Incorrect Shipping id" />
+            </if>
+            <entity-find-one entity-name="ContactMech" value-field="contact">
+                <field-map field-name="contactMechId" from="billingContactMechId"/>
+            </entity-find-one>
+            <if condition="!contact">
+                <return message="Incorrect Billing id" />
+            </if>
+            <if condition="contact.partyId!=partyId">
+                <return message="Incorrect Billing id" />
+            </if>
+            <service-call name="create#OrderHeader" in-map="context" out-map="context"/>
+                <set field="orderId" from="orderId"/>
+                <iterate list="itemList" entry="item">
+                    <entity-find-one entity-name="Product" value-field="product">
+                        <field-map field-name="productId" from="item.productId"/>
+                    </entity-find-one>
+                    <if condition="product">
+                        <then>
+                            <set field="item.orderId" from="orderId"/>
+<!--                            <service-call name="create#OrderItem" in-map="[orderId: orderId, productId: item.productId, quantity: item.quantity, status: item.status]" out-map="item"/>-->
+                            <service-call name="OrderItemService.create#OrderItem2" in-map="item" out-map="item"/>
+                            <!--                    <entity-create value-field="item" or-update="true"/>-->
+                        </then>
+                    </if>
+                </iterate>
+            <entity-find-one entity-name="OrderHeader" value-field="orderDetails"/>
+            <entity-find entity-name="OrderItem" list="itemLists">
+                <econdition field-name="orderId" from="orderId"/>
+            </entity-find>
+<!--            <service-call name="create#OrderItem" in-map="context" out-map="context"/>-->
+        </actions>
+    </service>
+
+    <service verb="delete" noun="OrderHeader">
+        <in-parameters>
+            <parameter name="orderId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="message" default-value="Order Deleted Successfully"/>
+        </out-parameters>
+
+        <actions>
+            <entity-find-one entity-name="OrderHeader" value-field="orderInfo"/>
+            <if condition="orderInfo">
+                <then>
+                    <entity-delete-related value-field="orderInfo"  relationship-name="OrderHeader#tutorial.OrderItem"/>
+                    <entity-delete-by-condition entity-name="OrderHeader" >
+                        <econdition field-name="orderId"/>
+                    </entity-delete-by-condition>
+                    <set field="message" value="Order Deleted Successfully"/>
+                </then>
+                <else>
+                    <set field="message" value="Order Not Found"/>
+                </else>
+            </if>
+        </actions>
+    </service>
+
+    <service verb="find" noun="OrderHeader" >
+        <in-parameters>
+            <parameter name="orderId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderInfo" type="list"/>
+            <parameter name="orderItemInfo" type="list"/>
+            <parameter name="partyInfo" type="list"/>
+            <parameter name="shippingInfo" type="list"/>
+            <parameter name="contactInfo" type="list"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="OrderHeader" value-field="orderInfo">
+                  <field-map field-name="orderId" from="orderId"/>
+            </entity-find-one>
+            <if condition="!orderInfo">
+                <return message="Order Not Found"/>
+            </if>
+            <entity-find entity-name="OrderItem" list="orderItemInfo">
+                <econdition field-name="orderId"/>
+            </entity-find>
+            <entity-find-one entity-name="Party" value-field="partyInfo">
+                <field-map field-name="partyId" from="orderInfo.partyId"/>
+            </entity-find-one>
+            <entity-find-one entity-name="ContactMech" value-field="shippingInfo">
+                <field-map field-name="contactMechId" from="orderInfo.shippingContactMechId"/>
+            </entity-find-one>
+            <entity-find-one entity-name="ContactMech" value-field="contactInfo">
+                <field-map field-name="contactMechId" from="orderInfo.shippingContactMechId"/>
+            </entity-find-one>
+        </actions>
+    </service>
+
+    <service verb="update" noun="Order">
+        <description>updateOrder.</description>
+
+        <in-parameters>
+            <parameter name="orderId" required="true"/>
+            <parameter name="itemList" type="List"/>
+            <parameter name="shippingContactMechId" />
+            <parameter name="billingContactMechId" />
+        </in-parameters>
+
+        <out-parameters>
+            <parameter name="message" default-value="Order Updated"/>
+            <parameter name="orderDetails"/>
+            <parameter name="itemLists" type="List"/>
+            <parameter name="partyDetails"/>
+        </out-parameters>
+
+        <actions>
+
+            <entity-find-one entity-name="OrderHeader" value-field="order">
+                <field-map field-name="orderId" from="orderId"/>
+            </entity-find-one>
+
+            <if condition="order">
+                <then>
+                    <if condition="shippingContactMechId">
+                        <then>
+                            <entity-find-one entity-name="ContactMech" value-field="contact">
+                                <field-map field-name="contactMechId" from="shippingContactMechId"/>
+                            </entity-find-one>
+                            <if condition="!contact"> <return message="Incorrect Shipping id" /></if>
+                        <if condition="contact.partyId==order.partyId">
+                                <then>
+                                    <set field="order.shippingContactMechId" from="shippingContactMechId"/>
+                                </then>
+                            <else>
+                                <return message="Incorrect Shipping id" />
+                            </else>
+                        </if>
+                        </then>
+                    </if>
+
+                    <if condition="billingContactMechId">
+                        <then>
+                            <entity-find-one entity-name="ContactMech" value-field="contact">
+                                <field-map field-name="contactMechId" from="billingContactMechId"/>
+                            </entity-find-one>
+                            <if condition="!contact"> <return message="Incorrect Billing id" /></if>
+                            <if condition="contact.partyId==order.partyId">
+                                <then>
+                                    <set field="order.billingContactMechId" from="billingContactMechId"/>
+                                </then>
+                                <else>
+                                    <return message="Incorrect Billing id" />
+                                </else>
+                            </if>
+                        </then>
+                    </if>
+
+                    <if condition="itemList">
+                        <then>
+                            <iterate list="itemList" entry="item">
+                                <entity-find-one entity-name="OrderItem" value-field="seqItem">
+                                    <field-map field-name="orderItemSeqId" from="item.orderItemSeqId"/>
+                                </entity-find-one>
+                                <if condition="seqItem">
+                                    <if condition="item.quantity!=0">
+                                        <then>
+                                            <set field="seqItem.quantity" from="item.quantity"/>
+                                            <set field="seqItem.status" from="item.status"/>
+                                            <entity-update value-field="seqItem"/>
+                                        </then>
+                                        <else>
+                                            <service-call name="delete#OrderItem" in-map="seqItem" out-map="context"/>
+                                        </else>
+                                    </if>
+                                </if>
+                            </iterate>
+                        </then>
+                    </if>
+                    <entity-update value-field="order"/>
+                    <set field="message"  value="Order Updated Successfully"/>
+                </then>
+                <else>
+                    <set field="message"  value="Order Not Found"/>
+                    <return/>
+                </else>
+            </if>
+            <entity-find-one entity-name="OrderHeader" value-field="orderDetails">
+                <field-map field-name="orderId" from="orderId"/>
+            </entity-find-one>
+            <entity-find-one entity-name="Party" value-field="partDetails">
+                <field-map field-name="partyId" from="order.partyId"/>
+            </entity-find-one>
+            <entity-find entity-name="OrderItem" list="itemLists">
+                <econdition field-name="orderId" from="orderId"/>
+            </entity-find>
+        </actions>
+    </service>
+
+</services>

@@ -7,7 +7,8 @@
         <field name="firstName" type="text-medium" />
         <field name="lastName" type="text-medium" />
     </entity>
-<!-- >
+
+<!--
     <entity entity-name="Try" package="tutorial">
         <field name="partyId" type="id" is-pk="true"  />
         <field name="partyType" type="text-short" not-null="true" />
@@ -15,7 +16,6 @@
         <field name="lastName" type="text-very-long" />
     </entity>
 -->
-    <!-- Contact_Mech Entity -->
     <entity entity-name="ContactMech" package="tutorial">
         <field name="contactMechId" type="id" is-pk="true" />
         <field name="partyId" type="id" />
@@ -29,7 +29,6 @@
         </relationship>
     </entity>
 
-    <!-- Product Entity -->
     <entity entity-name="Product" package="tutorial">
         <field name="productId" type="id" is-pk="true" />
         <field name="productName" type="text-medium" not-null="true" />
@@ -37,7 +36,6 @@
         <field name="size" type="text-medium" />
     </entity>
 
-    <!-- Order_Header Entity -->
     <entity entity-name="OrderHeader" package="tutorial">
         <field name="orderId" type="id" is-pk="true" />
         <field name="orderDate" type="date" not-null="true" />
@@ -56,7 +54,6 @@
         </relationship>
     </entity>
 
-    <!-- Order_Item Entity -->
     <entity entity-name="OrderItem" package="tutorial">
         <field name="orderItemSeqId" type="id" is-pk="true" />
         <field name="orderId" type="id" />
