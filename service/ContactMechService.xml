@@ -60,12 +60,21 @@
             <parameter name="message"/>
         </out-parameters>
         <actions>
+            <entity-find-one entity-name="Party" value-field="party">
+                <field-map field-name="partyId" from="partyId"/>
+            </entity-find-one>
             <entity-find-one entity-name="ContactMech" value-field="contacts">
                 <field-map field-name="contactMechId" from="contactMechId"/>
             </entity-find-one>
+
             <if condition="!contacts">
                 <return message="No Contact Found"/>
             </if>
+
+            <if condition="contacts.partyId!=partyId">
+                <return message="This Contact Not Found for you given party id"/>
+            </if>
+
             <set field="contacts.city" from="city"/>
             <set field="contacts.state" from="state"/>
             <set field="contacts.streetAddress" from="streetAddress"/>
@@ -96,6 +105,9 @@
             <!--            <return message="hi"/>-->
             <if condition="!contact">
                 <return message="Contact Not Found"/>
+            </if>
+            <if condition="contact.partyId!=partyId">
+                <return message="This Contact Not Found for you given party id"/>
             </if>
             <entity-find-one entity-name="OrderHeader" value-field="order">
                 <field-map field-name="shippingContactMechId" from="contactMechId"/>

@@ -18,7 +18,7 @@
                 <field-map field-name="partyId" from="partyId"/>
             </entity-find-one>
             <if condition="!party">
-                <return message="Incorrect Party id" />
+                <return message="Incorrect Party" />
             </if>
             <entity-find-one entity-name="ContactMech" value-field="contact">
                 <field-map field-name="contactMechId" from="shippingContactMechId"/>
@@ -27,16 +27,16 @@
                 <return message="Incorrect Shipping id" />
             </if>
             <if condition="contact.partyId!=partyId">
-                    <return message="Incorrect Shipping id" />
+                    <return message="Incorrect Shipping id for party" />
             </if>
             <entity-find-one entity-name="ContactMech" value-field="contact">
                 <field-map field-name="contactMechId" from="billingContactMechId"/>
             </entity-find-one>
             <if condition="!contact">
-                <return message="Incorrect Billing id" />
+                <return message="Incorrect Billing id " />
             </if>
             <if condition="contact.partyId!=partyId">
-                <return message="Incorrect Billing id" />
+                <return message="Incorrect Billing id for party" />
             </if>
             <service-call name="create#OrderHeader" in-map="context" out-map="context"/>
                 <set field="orderId" from="orderId"/>

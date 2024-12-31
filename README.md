@@ -15,6 +15,9 @@ Fetch details of a particular party by its ID.
 
 ![Get Particular Party](img/img_5.png)
 
+If party does not exsists
+![img.png](img/img23.png)
+
 ### 3. Update Party
 Update details of an existing party.
 
@@ -24,6 +27,9 @@ Update details of an existing party.
 Remove a party from the system.
 
 ![Delete Party](img/img_7.png)
+
+Cannot Remove party if it has oders
+![img_1.png](img/img_24.png)
 
 ### 5. Add Party
 Add a new party to the system.
@@ -44,6 +50,14 @@ Delete a contact from the system.
 
 ![Delete Contact](img/img_11.png)
 
+Cannot delete contact because it has Orders
+
+![img_2.png](img/img_26.png)
+
+if we try to delete contact by id, but it is not for the provided party Id
+
+![img.png](img/img_29.png)
+
 ### 8. Add Contact
 Add a new contact to the system.
 
@@ -53,6 +67,9 @@ Add a new contact to the system.
 Update an existing contact's details.
 
 ![Update Contact](img/img_13.png)
+
+if we try to update contact by id, but it is not for the provided party Id 
+![img.png](img/img_28.png)
 
 ---
 
@@ -97,10 +114,16 @@ Create a new order.
 
 ![Add Order](img/img_19.png)
 
+If the shiping or biling id is not correct for that party
+![img_3.png](img/img_23.png)
+
 ### 17. Update Order
 Update details of an existing order.
 
 ![Update Order](img/img_20.png)
+
+If the shiping or biling id is not correct for that party
+![img_4.png](img/img_25.png)
 
 ### 18. Delete Order
 Delete an order from the system.

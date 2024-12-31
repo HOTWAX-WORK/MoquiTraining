@@ -12,7 +12,7 @@
     <service verb="create" noun="MoquiTrainingDefaultInline">
         <in-parameters>
             <parameter name="trainingName" required="true"/>
-            <parameter name="trainingDate" required="true">
+            <parameter name="trainingDate" required="true" type="String">
                 <time-range after="now" format="mm/dd/yyyy"/></parameter>
             <parameter name="trainingPrice"/>
             <parameter name="trainingDuration"/>
@@ -22,15 +22,17 @@
         </out-parameters>
         <actions>
             <service-call name="create#MoquiTraining" in-map="context" out-map="context"/>
+            <set field="trainingDate" type="Date" />
         </actions>
     </service>
 
     <service verb="create" noun="MoquiTrainingGroovy">
         <in-parameters>
-            <auto-parameters entity-name="MoquiTraining" include="nonpk"/>
             <parameter name="trainingName" required="true"/>
-            <parameter name="trainingDate" required="true">
+            <parameter name="trainingDate" required="true" type="String">
                 <time-range after="now" format="mm/dd/yyyy"/></parameter>
+            <parameter name="trainingPrice"/>
+            <parameter name="trainingDuration"/>
         </in-parameters>
         <out-parameters>
             <parameter name="trainingId"/>
@@ -43,22 +45,23 @@
                 training.create()
                 context.trainingId = training.trainingId
             </script>
+            <set field="trainingDate" type="Date"/>
         </actions>
     </service>
 
-    <service verb="create" noun="Training" type="script" authenticate="anonymous-view" location="component://moqui-training/service/test.groovy">
-        <description>Create a training record with business logic</description>
-        <in-parameters>
-            <parameter name="trainingName" required="true"/>
-            <parameter name="trainingDate"  required="true"/>
-            <parameter name="trainingPrice"  required="true"/>
-            <parameter name="trainingDuration" />
-        </in-parameters>
-        <out-parameters>
-            <parameter name="trainingId" type="id"/>
-        </out-parameters>
+<!--    <service verb="create" noun="Training" type="script" authenticate="anonymous-view" location="component://moqui-training/service/test.groovy">-->
+<!--        <description>Create a training record with business logic</description>-->
+<!--        <in-parameters>-->
+<!--            <parameter name="trainingName" required="true"/>-->
+<!--            <parameter name="trainingDate"  required="true"/>-->
+<!--            <parameter name="trainingPrice"  required="true"/>-->
+<!--            <parameter name="trainingDuration" />-->
+<!--        </in-parameters>-->
+<!--        <out-parameters>-->
+<!--            <parameter name="trainingId" type="id"/>-->
+<!--        </out-parameters>-->
 
-    </service>
+<!--    </service>-->
 
     <service verb="find" noun="TrainingDetail">
         <in-parameters>
