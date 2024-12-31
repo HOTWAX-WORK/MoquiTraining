@@ -114,7 +114,6 @@
             <if condition="contact">
                 <then>
                     <entity-delete-related value-field="party"  relationship-name="Party#tutorial.ContactMech"/>
-
                 </then>
             </if>
             <entity-delete-by-condition entity-name="Party" >
@@ -123,6 +122,20 @@
             <set field="message" value="Party Deleted Successfully"/>
 
         </actions>
+    </service>
+    <service verb="find" noun="Shipping">
+        <in-parameters>
+            <parameter name="orderId"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="shipingId"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="OrderHeader" value-field="order"/>
+            <entity-find-related-one  value-field="order" relationship-name="$ShippingContactMech$tutorial.OrderHeader" to-value-field="contact"/>
+            <set field="shipingId" from="contact.contactMechId"/>
+        </actions>
+
     </service>
 
 </services>

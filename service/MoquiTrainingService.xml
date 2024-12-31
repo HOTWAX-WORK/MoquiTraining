@@ -49,19 +49,19 @@
         </actions>
     </service>
 
-<!--    <service verb="create" noun="Training" type="script" authenticate="anonymous-view" location="component://moqui-training/service/test.groovy">-->
-<!--        <description>Create a training record with business logic</description>-->
-<!--        <in-parameters>-->
-<!--            <parameter name="trainingName" required="true"/>-->
-<!--            <parameter name="trainingDate"  required="true"/>-->
-<!--            <parameter name="trainingPrice"  required="true"/>-->
-<!--            <parameter name="trainingDuration" />-->
-<!--        </in-parameters>-->
-<!--        <out-parameters>-->
-<!--            <parameter name="trainingId" type="id"/>-->
-<!--        </out-parameters>-->
+    <service verb="create" noun="Training" type="script" authenticate="anonymous-view" location="component://moqui-training/service/test.groovy">
+        <description>Create a training record with business logic</description>
+        <in-parameters>
+            <parameter name="trainingName" required="true"/>
+            <parameter name="trainingDate"  required="true"/>
+            <parameter name="trainingPrice"  required="true"/>
+            <parameter name="trainingDuration" />
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingId" type="id"/>
+        </out-parameters>
 
-<!--    </service>-->
+    </service>
 
     <service verb="find" noun="TrainingDetail">
         <in-parameters>
@@ -110,7 +110,6 @@
             <entity-find-one entity-name="MoquiTraining" value-field="existingRecord">
                 <field-map field-name="trainingId" from="trainingId"/>
             </entity-find-one>
-
             <if condition="existingRecord">
                 <then>
                     <set field="existingRecord.trainingDate" from="trainingDate"/>

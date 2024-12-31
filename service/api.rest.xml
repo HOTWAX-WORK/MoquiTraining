@@ -3,7 +3,7 @@
 <resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/rest-api-3.xsd"
           name="api" displayName="REST API TASK 5" version="1.0.0">
 
-    <resource name="parties" require-authentication="anonymous-all">
+    <resource name="parties"  require-authentication="anonymous-all">
 <!--        <method type="get"><entity name="Party" operation="list"/></method>-->
         <method type="get"><service name="PartyService.find#Parties" /></method>
 

@@ -135,6 +135,10 @@ Add an item to an existing order.
 
 ![Add Order Item](img/img_21.png)
 
+Validation check that the quantity of an item can not be zero ("0")
+![img.png](img.png)
+
+
 ### 20. Delete Order Item
 Remove an item from an order.
 

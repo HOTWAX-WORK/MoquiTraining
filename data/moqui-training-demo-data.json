@@ -56,7 +56,6 @@
     "size": "M"
   },
   {
-
     "_entity": "Product",
     "productId": 2,
     "productName": "Jeans",
@@ -64,7 +63,6 @@
     "size": "32"
   },
   {
-
     "_entity": "Product",
     "productId": 3,
     "productName": "Jacket",
@@ -72,7 +70,6 @@
     "size": "L"
   },
   {
-
     "_entity": "Product",
     "productId": 4,
     "productName": "Sneakers",

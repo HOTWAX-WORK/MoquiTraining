@@ -12,6 +12,7 @@
             <parameter name="orderDetails"/>
             <parameter name="itemLists"/>
             <parameter name="party"/>
+            <parameter name="message"/>
         </out-parameters>
         <actions>
             <entity-find-one entity-name="Party" value-field="party">
@@ -57,6 +58,7 @@
             <entity-find entity-name="OrderItem" list="itemLists">
                 <econdition field-name="orderId" from="orderId"/>
             </entity-find>
+            <set field="message" value="Order Created Successfully"/>
 <!--            <service-call name="create#OrderItem" in-map="context" out-map="context"/>-->
         </actions>
     </service>
