@@ -15,7 +15,9 @@
                     <return message="No Parties Exists"/>
                 </then>
                 <else>
-                    <entity-find entity-name="ContactMech" list="contactMechList"/>
+                    <entity-find entity-name="ContactMech" list="contactMechList" />
+
+                    <message type="success">Contacts found successfully</message>
                 </else>
             </if>
         </actions>
@@ -27,22 +29,17 @@
             <parameter name="partyId" required="true"/>
         </in-parameters>
         <out-parameters>
-            <parameter name="message"/>
             <parameter name="contactList" type="List"/>
         </out-parameters>
         <actions>
-            <entity-find-one entity-name="Party" value-field="party">
-                <field-map field-name="partyId" from="partyId"/>
-            </entity-find-one>
+            <entity-find-one entity-name="Party" value-field="party"/>
             <if condition="!party">
                 <return message="Incorrect Party id so cannot create contact" />
             </if>
             <service-call name="create#ContactMech" in-map="context" out-map="context"/>
-            <entity-find-one entity-name="ContactMech" value-field="cont">
-                <field-map field-name="contactMechId" from="contactMechId"/>
-            </entity-find-one>
+            <entity-find-one entity-name="ContactMech" value-field="cont"/>
             <set field="contactList" from="cont"/>
-            <set field="message" value="Contact Created Successfully with id = $contactMechId"/>
+            <return message="Contact Created Successfully"/>
         </actions>
     </service>
 
@@ -57,15 +54,10 @@
         </in-parameters>
         <out-parameters>
             <parameter name="updatedRecord"/>
-            <parameter name="message"/>
         </out-parameters>
         <actions>
-            <entity-find-one entity-name="Party" value-field="party">
-                <field-map field-name="partyId" from="partyId"/>
-            </entity-find-one>
-            <entity-find-one entity-name="ContactMech" value-field="contacts">
-                <field-map field-name="contactMechId" from="contactMechId"/>
-            </entity-find-one>
+            <entity-find-one entity-name="Party" value-field="party"/>
+            <entity-find-one entity-name="ContactMech" value-field="contacts"/>
 
             <if condition="!contacts">
                 <return message="No Contact Found"/>
@@ -80,10 +72,8 @@
             <set field="contacts.streetAddress" from="streetAddress"/>
             <set field="contacts.postalCode" from="postalCode"/>
             <entity-update value-field="contacts"/>
-            <entity-find-one entity-name="ContactMech" value-field="updatedRecord">
-                <field-map field-name="contactMechId" from="contactMechId"/>
-            </entity-find-one>
-            <set field="message" value="Contact Updtaed"/>
+            <entity-find-one entity-name="ContactMech" value-field="updatedRecord"/>
+            <return message="Contact Updated"/>
         </actions>
     </service>
 
@@ -92,9 +82,6 @@
             <parameter name="partyId" required="true"/>
             <parameter name="contactMechId" required="true"/>
         </in-parameters>
-        <out-parameters>
-            <parameter name="message" default-value="Contact Deleted Successfully"/>
-        </out-parameters>
 
         <actions>
             <entity-find-one entity-name="Party" value-field="party"/>
@@ -126,7 +113,7 @@
             <entity-delete-by-condition entity-name="ContactMech" >
                 <econdition field-name="contactMechId"/>
             </entity-delete-by-condition>
-            <set field="message" value="Contact Deleted Successfully"/>
+            <return message= "Contact Deleted Successfully"/>
 
         </actions>
     </service>

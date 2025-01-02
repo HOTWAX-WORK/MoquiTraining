@@ -21,16 +21,12 @@
         <parameter name="partyType" required="true"/>
     </in-parameters>
     <out-parameters>
-        <parameter name="message" />
         <parameter name="partyDetails" type="list"/>
     </out-parameters>
         <actions>
             <service-call name="create#Party" in-map="context" out-map="context"/>
-            <set field="message" value="Party Added Successfully"/>
-            <entity-find-one entity-name="Party" value-field="partyDetails">
-                    <field-map field-name="partyId" from="partyId"/>
-            </entity-find-one>
-
+            <entity-find-one entity-name="Party" value-field="partyDetails"/>
+            <message type="success">Party Added Successfully</message>
         </actions>
     </service>
 
@@ -48,10 +44,11 @@
                     <return message="No Parties Exists with this Party Id"/>
                 </then>
             </if>
+            <message type="success">Party Found Successfully</message>
         </actions>
     </service>
 
-    <service verb="update" noun="Party1">
+    <service verb="update" noun="Party">
         <description>Update Party</description>
 
         <in-parameters>
@@ -59,15 +56,12 @@
         </in-parameters>
 
         <out-parameters>
-            <parameter name="message" default-value="Party Updated"/>
             <parameter name="partyDetails" type="List"/>
         </out-parameters>
 
         <actions>
 
-            <entity-find-one entity-name="Party" value-field="party">
-                <field-map field-name="partyId" from="partyId"/>
-            </entity-find-one>
+            <entity-find-one entity-name="Party" value-field="party"/>
 
             <if condition="party">
                 <then>
@@ -77,23 +71,20 @@
                     <set field="party.lastName" from="lastName"/>
 
                     <entity-update value-field="party"/>
-                    <set field="message"  value="Party Updated Successfully"/>
+                    <message type="success"> Party Updated Successfully</message>
                 </then>
                 <else>
-                    <set field="message"  value="Party Not Found"/>
+                    <message type="success"> Party Not Found</message>
                 </else>
             </if>
             <set field="partyDetails" from="party"/>
         </actions>
     </service>
 
-    <service verb="delete" noun="Party1">
+    <service verb="delete" noun="Party">
         <in-parameters>
             <parameter name="partyId" required="true"/>
         </in-parameters>
-        <out-parameters>
-            <parameter name="message" default-value="Party Deleted Successfully"/>
-        </out-parameters>
 
         <actions>
             <entity-find-one entity-name="Party" value-field="party"/>
@@ -116,26 +107,12 @@
                     <entity-delete-related value-field="party"  relationship-name="Party#tutorial.ContactMech"/>
                 </then>
             </if>
-            <entity-delete-by-condition entity-name="Party" >
-                <econdition field-name="partyId"/>
-            </entity-delete-by-condition>
-            <set field="message" value="Party Deleted Successfully"/>
-
+            <entity-delete value-field="party"/>
+<!--            <entity-delete-by-condition entity-name="Party" >-->
+<!--                <econdition field-name="partyId"/>-->
+<!--            </entity-delete-by-condition>-->
+            <message type="success">Party Deleted Successfully</message>
         </actions>
-    </service>
-    <service verb="find" noun="Shipping">
-        <in-parameters>
-            <parameter name="orderId"/>
-        </in-parameters>
-        <out-parameters>
-            <parameter name="shipingId"/>
-        </out-parameters>
-        <actions>
-            <entity-find-one entity-name="OrderHeader" value-field="order"/>
-            <entity-find-related-one  value-field="order" relationship-name="$ShippingContactMech$tutorial.OrderHeader" to-value-field="contact"/>
-            <set field="shipingId" from="contact.contactMechId"/>
-        </actions>
-
     </service>
 
 </services>

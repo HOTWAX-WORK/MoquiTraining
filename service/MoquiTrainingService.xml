@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
     <service verb="create" noun="MoquiTraining" type="entity-auto">
         <in-parameters>
             <auto-parameters entity-name="MoquiTraining" include="nonpk"/>
@@ -12,8 +13,8 @@
     <service verb="create" noun="MoquiTrainingDefaultInline">
         <in-parameters>
             <parameter name="trainingName" required="true"/>
-            <parameter name="trainingDate" required="true" type="String">
-                <time-range after="now" format="mm/dd/yyyy"/></parameter>
+            <parameter name="trainingDate" format="MM/DD/YYYY" required="true" type="String"/>
+<!--                <time-range after="now" format="mm/dd/yyyy"/></parameter>-->
             <parameter name="trainingPrice"/>
             <parameter name="trainingDuration"/>
         </in-parameters>
@@ -23,14 +24,15 @@
         <actions>
             <service-call name="create#MoquiTraining" in-map="context" out-map="context"/>
             <set field="trainingDate" type="Date" />
+            <message type="success" >Created Successfully</message>
         </actions>
     </service>
 
     <service verb="create" noun="MoquiTrainingGroovy">
         <in-parameters>
             <parameter name="trainingName" required="true"/>
-            <parameter name="trainingDate" required="true" type="String">
-                <time-range after="now" format="mm/dd/yyyy"/></parameter>
+            <parameter name="trainingDate" format="MM/DD/YYYY" required="true" type="String"/>
+<!--                <time-range after="now" format="mm/dd/yyyy"/></parameter>-->
             <parameter name="trainingPrice"/>
             <parameter name="trainingDuration"/>
         </in-parameters>
@@ -46,6 +48,7 @@
                 context.trainingId = training.trainingId
             </script>
             <set field="trainingDate" type="Date"/>
+            <message type="success" >Created Successfully</message>
         </actions>
     </service>
 
@@ -125,6 +128,7 @@
 
             </if>
 <!--            <set-result name="trainingId" from="trainingId"/>-->
+            <message type="success">Created or Updated Successfully</message>
         </actions>
     </service>
 

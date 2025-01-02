@@ -14,10 +14,10 @@
             <method type="get"><service name="PartyService.find#Party" /></method>
 
 <!--            <method type="put"><entity name="Party" operation="update"/></method>-->
-            <method type="put"><service name="PartyService.update#Party1" /></method>
+            <method type="put"><service name="PartyService.update#Party" /></method>
 
 <!--            <method type="delete"><entity name="Party" operation="delete"/></method>-->
-            <method type="delete"><service name="PartyService.delete#Party1" /></method>
+            <method type="delete"><service name="PartyService.delete#Party" /></method>
 
             <resource name="contacts">
 <!--                <method type="post"><entity name="ContactMech" operation="create"/></method>-->
@@ -56,21 +56,21 @@
     </resource>
 
     <resource name="orders" require-authentication="anonymous-all">
-        <method type="post"><service name="OrderHeaderService.create#OrderHeader2" /></method>
+        <method type="post"><service name="OrderHeaderService.create#OrderHeader" /></method>
         <id name="orderId">
             <method type="get"><service name="OrderHeaderService.find#OrderHeader" /></method>
-            <method type="put"><service name="OrderHeaderService.update#Order" /></method>
+            <method type="put"><service name="OrderHeaderService.update#OrderHeader" /></method>
             <method type="delete"><service name="OrderHeaderService.delete#OrderHeader" /></method>
         </id>
         <resource name="items">
-            <method type="post"><service name="OrderItemService.create#OrderItem2" /></method>
+            <method type="post"><service name="OrderItemService.create#OrderItem" /></method>
         </resource>
     </resource>
 
-    <resource name="item" require-authentication="anonymous-all">
-        <id name="orderItemSeqId">
-            <method type="delete"><service name="OrderItemService.delete#OrderItem" /></method>
-        </id>
-    </resource>
+<!--    <resource name="item" require-authentication="anonymous-all">-->
+<!--        <id name="orderItemSeqId">-->
+<!--            <method type="delete"><service name="OrderItemService.delete#OrderItem" /></method>-->
+<!--        </id>-->
+<!--    </resource>-->
 
 </resource>

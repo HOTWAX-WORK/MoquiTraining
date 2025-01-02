@@ -61,12 +61,13 @@
         <field name="quantity" type="number-integer" not-null="true" />
         <field name="status" type="text-medium" />
 
-        <relationship type="one" title="OrderHeader" related="OrderHeader">
+        <relationship type="one" short-alias="order_items" title="OrderHeader" related="OrderHeader">
             <key-map field-name="orderId"/>
         </relationship>
         <relationship type="one" title="Product" related="Product">
             <key-map field-name="productId"/>
         </relationship>
+
     </entity>
 
     <entity entity-name="MoquiTraining"  package="tutorial">

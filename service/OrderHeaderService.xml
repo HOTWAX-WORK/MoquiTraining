@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
 
-    <service verb="create" noun="OrderHeader2">
+    <service verb="create" noun="OrderHeader">
         <in-parameters>
             <auto-parameters entity-name="OrderHeader" include="nonpk"/>
 <!--            <auto-parameters entity-name="OrderItem" include="nonpk"/>-->
@@ -12,12 +12,12 @@
             <parameter name="orderDetails"/>
             <parameter name="itemLists"/>
             <parameter name="party"/>
-            <parameter name="message"/>
+<!--            <parameter name="message"/>-->
         </out-parameters>
         <actions>
-            <entity-find-one entity-name="Party" value-field="party">
-                <field-map field-name="partyId" from="partyId"/>
-            </entity-find-one>
+            <entity-find-one entity-name="Party" value-field="party"/>
+<!--                <field-map field-name="partyId" from="partyId"/>-->
+<!--            </entity-find-one>-->
             <if condition="!party">
                 <return message="Incorrect Party" />
             </if>
@@ -49,16 +49,17 @@
                         <then>
                             <set field="item.orderId" from="orderId"/>
 <!--                            <service-call name="create#OrderItem" in-map="[orderId: orderId, productId: item.productId, quantity: item.quantity, status: item.status]" out-map="item"/>-->
-                            <service-call name="OrderItemService.create#OrderItem2" in-map="item" out-map="item"/>
+                            <service-call name="OrderItemService.create#OrderItem" in-map="item" out-map="item"/>
                             <!--                    <entity-create value-field="item" or-update="true"/>-->
                         </then>
                     </if>
                 </iterate>
             <entity-find-one entity-name="OrderHeader" value-field="orderDetails"/>
-            <entity-find entity-name="OrderItem" list="itemLists">
-                <econdition field-name="orderId" from="orderId"/>
-            </entity-find>
-            <set field="message" value="Order Created Successfully"/>
+            <entity-find entity-name="OrderItem" list="itemLists"/>
+<!--                <econdition field-name="orderId" from="orderId"/>-->
+<!--            </entity-find>-->
+<!--            <set field="message" value="Order Created Successfully"/>-->
+            <message type="success">Order Created Successfully</message>
 <!--            <service-call name="create#OrderItem" in-map="context" out-map="context"/>-->
         </actions>
     </service>
@@ -76,6 +77,7 @@
             <if condition="orderInfo">
                 <then>
                     <entity-delete-related value-field="orderInfo"  relationship-name="OrderHeader#tutorial.OrderItem"/>
+<!--                    <entity-delete value-field="orderInfo"/>-->
                     <entity-delete-by-condition entity-name="OrderHeader" >
                         <econdition field-name="orderId"/>
                     </entity-delete-by-condition>
@@ -100,15 +102,15 @@
             <parameter name="contactInfo" type="list"/>
         </out-parameters>
         <actions>
-            <entity-find-one entity-name="OrderHeader" value-field="orderInfo">
-                  <field-map field-name="orderId" from="orderId"/>
-            </entity-find-one>
+            <entity-find-one entity-name="OrderHeader" value-field="orderInfo"/>
+<!--                  <field-map field-name="orderId" from="orderId"/>-->
+<!--            </entity-find-one>-->
             <if condition="!orderInfo">
                 <return message="Order Not Found"/>
             </if>
-            <entity-find entity-name="OrderItem" list="orderItemInfo">
-                <econdition field-name="orderId"/>
-            </entity-find>
+            <entity-find entity-name="OrderItem" list="orderItemInfo"/>
+<!--                <econdition field-name="orderId"/>-->
+<!--            </entity-find>-->
             <entity-find-one entity-name="Party" value-field="partyInfo">
                 <field-map field-name="partyId" from="orderInfo.partyId"/>
             </entity-find-one>
@@ -121,8 +123,8 @@
         </actions>
     </service>
 
-    <service verb="update" noun="Order">
-        <description>updateOrder.</description>
+    <service verb="update" noun="OrderHeader">
+        <description>updateOrder</description>
 
         <in-parameters>
             <parameter name="orderId" required="true"/>
@@ -140,9 +142,9 @@
 
         <actions>
 
-            <entity-find-one entity-name="OrderHeader" value-field="order">
-                <field-map field-name="orderId" from="orderId"/>
-            </entity-find-one>
+            <entity-find-one entity-name="OrderHeader" value-field="order"/>
+<!--                <field-map field-name="orderId" from="orderId"/>-->
+<!--            </entity-find-one>-->
 
             <if condition="order">
                 <then>

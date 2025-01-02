@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
 
-    <service verb="create" noun="OrderItem2">
+    <service verb="create" noun="OrderItem">
         <in-parameters>
             <auto-parameters entity-name="OrderItem" include="nonpk"/>
         </in-parameters>
@@ -27,22 +27,22 @@
         </actions>
     </service>
 
-    <service verb="delete" noun="OrderItem">
-        <in-parameters>
-            <parameter name="orderItemSeqId"/>
-        </in-parameters>
-        <out-parameters>
-            <parameter name="message"/>
-        </out-parameters>
-        <actions>
+<!--    <service verb="delete" noun="OrderItem">-->
+<!--        <in-parameters>-->
+<!--            <parameter name="orderItemSeqId"/>-->
+<!--        </in-parameters>-->
+<!--        <out-parameters>-->
+<!--            <parameter name="message"/>-->
+<!--        </out-parameters>-->
+<!--        <actions>-->
 
-            <entity-find-one entity-name="OrderItem" value-field="orderItem"/>
-            <if condition="!orderItem">
-                <return message="Item not Found"/>
-            </if>
-            <entity-delete value-field="orderItem"/>
-            <set field="message" value="Order Item Deleted Successfully"/>
-        </actions>
-    </service>
+<!--            <entity-find-one entity-name="OrderItem" value-field="orderItem"/>-->
+<!--            <if condition="!orderItem">-->
+<!--                <return message="Item not Found"/>-->
+<!--            </if>-->
+<!--            <entity-delete value-field="orderItem"/>-->
+<!--            <set field="message" value="Order Item Deleted Successfully"/>-->
+<!--        </actions>-->
+<!--    </service>-->
 
 </services>
