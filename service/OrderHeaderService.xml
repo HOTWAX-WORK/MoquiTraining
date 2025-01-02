@@ -55,9 +55,9 @@
                     </if>
                 </iterate>
             <entity-find-one entity-name="OrderHeader" value-field="orderDetails"/>
-            <entity-find entity-name="OrderItem" list="itemLists"/>
-<!--                <econdition field-name="orderId" from="orderId"/>-->
-<!--            </entity-find>-->
+            <entity-find entity-name="OrderItem" list="itemLists">
+                <econdition field-name="orderId" from="orderId"/>
+            </entity-find>
 <!--            <set field="message" value="Order Created Successfully"/>-->
             <message type="success">Order Created Successfully</message>
 <!--            <service-call name="create#OrderItem" in-map="context" out-map="context"/>-->
