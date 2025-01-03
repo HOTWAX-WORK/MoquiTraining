@@ -115,6 +115,7 @@
             </entity-find-one>
             <if condition="existingRecord">
                 <then>
+
                     <set field="existingRecord.trainingDate" from="trainingDate"/>
                     <set field="existingRecord.trainingName" from="trainingName"/>
                     <set field="existingRecord.trainingPrice" from="trainingPrice"/>
